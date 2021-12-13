@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 // user_action에서 registerUser를 가져온다.
 import { registerUser } from '../../../_action/user_action';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
-function RegisterPage() {
+function RegisterPage(props) {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     // Email, Name, Password, ConfirmPassword 의 state를 생성한다.
     const [Email, setEmail] = useState('');
     const [Name, setName] = useState('');
@@ -41,7 +42,8 @@ function RegisterPage() {
         // 회원가입이 성공하면 로그인 페이지로 이동.
         dispatch(registerUser(body)).then(response => {
             if (response.payload.success) {
-                navigate('/login');
+                props.history.push('/login');
+                // navigate('/login');
             } else {
                 alert('Failed to sign up');
             }
@@ -73,4 +75,4 @@ function RegisterPage() {
     );
 }
 
-export default RegisterPage;
+export default withRouter(RegisterPage);
